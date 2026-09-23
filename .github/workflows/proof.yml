@@ -16,7 +16,7 @@ jobs:
           fail-on: none
           format: all
           out: skimless
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: skimless-packet
