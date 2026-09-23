@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skimless · Do not skim this one</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,640&family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+:root {
+  color-scheme: light;
+  --bg: #13120f;
+  --bg-2: #1c1a16;
+  --paper: #f4efe6;
+  --paper-2: #ebe4d6;
+  --ink: #1b1814;
+  --muted: #6d655c;
+  --line: #ddd4c6;
+  --accent: #d84a2f;
+  --high: #8d241c;
+  --high-bg: #f6ddd8;
+  --med: #8a4b12;
+  --med-bg: #f6e6cf;
+  --low: #1e5c3a;
+  --low-bg: #dceadf;
+  --calm: #514b43;
+  --calm-bg: #e7e1d6;
+  --add: #e7f3ea;
+  --add-ink: #145c32;
+  --del: #f8e4e1;
+  --del-ink: #8c1d1d;
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+  --serif: "Fraunces", "Iowan Old Style", Palatino, Georgia, serif;
+  --sans: "Outfit", "Avenir Next", "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background:
+    radial-gradient(1200px 500px at 10% -10%, rgba(216, 74, 47, 0.18), transparent 50%),
+    var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.5;
+}
+a { color: inherit; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 32px 20px 80px; }
+.top {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: baseline;
+  color: #f4efe6;
+  margin-bottom: 18px;
+}
+.brand { font-family: var(--serif); font-size: 28px; letter-spacing: -0.04em; }
+.brand span { color: var(--accent); }
+.meta { color: #b9b1a6; font-family: var(--mono); font-size: 12px; }
+.sheet {
+  background: var(--paper);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.hero { padding: 36px 36px 28px; border-bottom: 1px solid var(--line); }
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+h1 {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 560;
+  font-size: clamp(40px, 6vw, 68px);
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+}
+.lede { max-width: 68ch; font-size: 18px; color: #3c3832; }
+.stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 22px; }
+.stat {
+  background: var(--paper-2);
+  border-radius: 12px;
+  padding: 12px 12px 10px;
+}
+.stat b { display: block; font-family: var(--serif); font-size: 28px; letter-spacing: -0.04em; line-height: 1; }
+.stat span { color: var(--muted); font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; }
+.section { padding: 28px 36px; border-top: 1px solid var(--line); }
+h2 { margin: 0 0 14px; font-family: var(--serif); font-size: 28px; letter-spacing: -0.03em; }
+.order { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.order a {
+  display: grid;
+  grid-template-columns: 42px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #faf7f1;
+  border: 1px solid transparent;
+}
+.order a:hover { border-color: #c9bfb0; }
+.num { font-family: var(--mono); color: var(--muted); }
+.path { font-family: var(--mono); font-size: 13px; }
+.reason { grid-column: 2; color: var(--muted); font-size: 14px; }
+.filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+button {
+  font: inherit;
+  border: 1px solid var(--line);
+  background: transparent;
+  border-radius: 999px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+button.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+button:disabled { opacity: 0.4; cursor: default; }
+.finding {
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+}
+.finding .pill { justify-self: start; margin-top: 1px; }
+.finding p { margin: 4px 0 0; color: #3f3a34; }
+.card { padding: 18px 0 8px; border-top: 1px solid var(--line); }
+.card h3 { margin: 0; font-family: var(--mono); font-size: 14px; font-weight: 500; }
+.sub { color: var(--muted); font-size: 13px; margin: 4px 0 10px; }
+.diff {
+  overflow: auto;
+  background: #1b1916;
+  color: #f3ecdf;
+  border-radius: 12px;
+  padding: 10px 0;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+.diff-body { width: max-content; min-width: 100%; }
+.diff-body > div { display: grid; grid-template-columns: 36px 1fr; gap: 14px; padding: 0 14px; white-space: pre; }
+.diff-body > div > span:first-child { color: #7d7466; text-align: right; user-select: none; }
+.diff .add { background: rgba(90, 154, 110, 0.18); }
+.diff .del { background: rgba(196, 92, 84, 0.18); }
+.diff .hunk { display: block; color: #b7aa98; padding: 2px 14px 4px; }
+.file-finding { display: flex; gap: 10px; align-items: baseline; margin: 0 0 10px; color: #3f3a34; }
+.file-finding .pill { flex-shrink: 0; }
+.file-finding strong { color: var(--ink); font-weight: 600; }
+.pill {
+  justify-self: end;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+.high { color: var(--high); background: var(--high-bg); }
+.medium { color: var(--med); background: var(--med-bg); }
+.low { color: var(--low); background: var(--low-bg); }
+.info, .calm, .later { color: var(--calm); background: var(--calm-bg); }
+.now { color: var(--high); background: var(--high-bg); }
+.soon { color: var(--med); background: var(--med-bg); }
+.note { color: var(--muted); font-size: 13px; }
+footer { color: #b9b1a6; padding: 18px 4px 0; font-size: 13px; max-width: 70ch; }
+@media (max-width: 800px) {
+  .hero, .section { padding: 22px 16px; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .order a, .finding { grid-template-columns: 1fr; }
+  .reason { grid-column: auto; }
+}
+@media print {
+  body { background: white; }
+  .sheet { box-shadow: none; }
+  .top, footer { color: black; }
+  button { display: none; }
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">Skimless<span>.</span></div>
+      <div class="meta">packet dfd88e30 · 2026-09-23 06:36 · story</div>
+    </div>
+    <article class="sheet">
+      <header class="hero">
+        <p class="eyebrow">Review packet</p>
+        <h1>Do not skim this one</h1>
+        <p class="lede">14 files · +86 −8 · about 2 min. 5 high-priority findings. First pass: index.ts, fixture.ts, verify.ts.</p>
+        <div class="stats">
+          <div class="stat"><b>14</b><span>files</span></div>
+          <div class="stat"><b>+86</b><span>added</span></div>
+          <div class="stat"><b>−8</b><span>removed</span></div>
+          <div class="stat"><b>2</b><span>min</span></div>
+          <div class="stat"><b>100</b><span>high</span></div>
+        </div>
+      </header>
+      <section class="section">
+        <h2>Reading order</h2>
+        <ol class="order">
+          
+            <li>
+              <a href="#file-1">
+                <span class="num">01</span>
+                <span>
+                  <span class="path">src/api/index.ts</span><br>
+                  <span class="reason">Public export changed</span>
+                </span>
+                <span class="pill soon">Then this</span>
+              </a>
+            </li>
+            <li>
+              <a href="#file-2">
+                <span class="num">02</span>
+                <span>
+                  <span class="path">src/webhooks/fixture.ts</span><br>
+                  <span class="reason">Secret-shaped string added</span>
+                </span>
+                <span class="pill now">Read now</span>
+              </a>
+            </li>
+            <li>
+              <a href="#file-3">
+                <span class="num">03</span>
+                <span>
+                  <span class="path">src/webhooks/verify.ts</span><br>
+                  <span class="reason">Signature compared with ==</span>
+                </span>
+                <span class="pill now">Read now</span>
+              </a>
+            </li>
+            <li>
+              <a href="#file-4">
+                <span class="num">04</span>
+                <span>
+                  <span class="path">.github/workflows/release.yml</span><br>
+                  <span class="reason">Workflow grants write permissions</span>
+                </span>
+                <span class="pill now">Read now</span>
+              </a>
+            </li>
+            <li>
+              <a href="#file-5">
+                <span class="num">05</span>
+                <span>
+                  <span class="path">src/billing/invoice.ts</span><br>
+                  <span class="reason">Billing path changed</span>
+                </span>
+                <span class="pill soon">Then this</span>
+              </a>
+            </li>
+            <li>
+              <a href="#file-6">
+                <span class="num">06</span>
+                <span>
+                  <span class="path">test/webhooks/verify.test.ts</span><br>
+                  <span class="reason">Test file deleted</span>
+                </span>
+                <span class="pill now">Read now</span>
+              </a>
+            </li>
+            <li>
+              <a href="#file-7">
+                <span class="num">07</span>
+                <span>
+                  <span class="path">migrations/2026_09_23_api_keys.sql</span><br>
+                  <span class="reason">Schema change</span>
+                </span>
+                <span class="pill now">Read now</span>
+              </a>
+            </li>
+            <li>
+              <a href="#file-8">
+                <span class="num">08</span>
+                <span>
+                  <span class="path">src/billing/charge.ts</span><br>
+                  <span class="reason">Billing path changed</span>
+                </span>
+                <span class="pill soon">Then this</span>
+              </a>
+            </li>
+            <li>
+              <a href="#file-9">
+                <span class="num">09</span>
+                <span>
+                  <span class="path">package.json</span><br>
+                  <span class="reason">Dependency manifest changed</span>
+                </span>
+                <span class="pill soon">Then this</span>
+              </a>
+            </li>
+            <li>
+              <a href="#file-10">
+                <span class="num">10</span>
+                <span>
+                  <span class="path">Dockerfile</span><br>
+                  <span class="reason">Runtime packaging changed</span>
+                </span>
+                <span class="pill soon">Then this</span>
+              </a>
+            </li>
+            <li>
+              <a href="#file-11">
+                <span class="num">11</span>
+                <span>
+                  <span class="path">test/billing/charge.test.ts</span><br>
+                  <span class="reason">Tests</span>
+                </span>
+                <span class="pill later">Can wait</span>
+              </a>
+            </li>
+            <li>
+              <a href="#file-12">
+                <span class="num">12</span>
+                <span>
+                  <span class="path">docs/webhooks.md</span><br>
+                  <span class="reason">Docs</span>
+                </span>
+                <span class="pill later">Can wait</span>
+              </a>
+            </li>
+            <li>
+              <a href="#file-13">
+                <span class="num">13</span>
+                <span>
+                  <span class="path">package-lock.json</span><br>
+                  <span class="reason">Lockfile changed</span>
+                </span>
+                <span class="pill later">Can wait</span>
+              </a>
+            </li>
+            <li>
+              <a href="#file-14">
+                <span class="num">14</span>
+                <span>
+                  <span class="path">src/generated/types.ts</span><br>
+                  <span class="reason">Generated file</span>
+                </span>
+                <span class="pill later">Can wait</span>
+              </a>
+            </li>
+        </ol>
+      </section>
+      <section class="section">
+        <h2>Findings</h2>
+        <div class="filters">
+          <button type="button" class="on" data-sev="all">All</button>
+          <button type="button" data-sev="high">High 5</button>
+          <button type="button" data-sev="medium">Medium 7</button>
+          <button type="button" data-sev="low" disabled>Low 0</button>
+          <button type="button" data-sev="info">Info 1</button>
+        </div>
+        
+          <div class="finding" data-finding="high">
+            <div class="pill high">high</div>
+            <div>
+              <strong>Secret-shaped string added</strong>
+              <div class="path">src/webhooks/fixture.ts</div>
+              <p>Pattern: Stripe live key. If it is real, rotate it. If it is a fixture, use an obvious placeholder.</p>
+            </div>
+          </div>
+          <div class="finding" data-finding="high">
+            <div class="pill high">high</div>
+            <div>
+              <strong>Signature compared with ==</strong>
+              <div class="path">src/webhooks/verify.ts</div>
+              <p>Equality on a digest leaks timing. A constant-time compare belongs on the raw bytes, and the two sides need to be the same length.</p>
+            </div>
+          </div>
+          <div class="finding" data-finding="high">
+            <div class="pill high">high</div>
+            <div>
+              <strong>Workflow grants write permissions</strong>
+              <div class="path">.github/workflows/release.yml</div>
+              <p>A stolen token in this workflow can push code or publish a package. Read the permission block before the step list.</p>
+            </div>
+          </div>
+          <div class="finding" data-finding="high">
+            <div class="pill high">high</div>
+            <div>
+              <strong>Test file deleted</strong>
+              <div class="path">test/webhooks/verify.test.ts</div>
+              <p>Deleted coverage does not come back on its own. Check the replacement test, or the reason there isn't one.</p>
+            </div>
+          </div>
+          <div class="finding" data-finding="high">
+            <div class="pill high">high</div>
+            <div>
+              <strong>Schema change</strong>
+              <div class="path">migrations/2026_09_23_api_keys.sql</div>
+              <p>Read the up path and how it rolls back. A default on a hot table is still a migration.</p>
+            </div>
+          </div>
+          <div class="finding" data-finding="medium">
+            <div class="pill medium">medium</div>
+            <div>
+              <strong>Billing path changed</strong>
+              <div class="path">src/billing/charge.ts</div>
+              <p>Read the behavior here before docs, lockfiles, or generated code.</p>
+            </div>
+          </div>
+          <div class="finding" data-finding="medium">
+            <div class="pill medium">medium</div>
+            <div>
+              <strong>Billing path changed</strong>
+              <div class="path">src/billing/invoice.ts</div>
+              <p>Read the behavior here before docs, lockfiles, or generated code.</p>
+            </div>
+          </div>
+          <div class="finding" data-finding="medium">
+            <div class="pill medium">medium</div>
+            <div>
+              <strong>Behavior changed without a matching test</strong>
+              <div class="path">src/billing/invoice.ts</div>
+              <p>Nothing in this diff covers “invoice”. If the change is pure wiring, say so in the pull request.</p>
+            </div>
+          </div>
+          <div class="finding" data-finding="medium">
+            <div class="pill medium">medium</div>
+            <div>
+              <strong>Dependency manifest changed</strong>
+              <div class="path">package.json</div>
+              <p>Read the new range here. The lockfile, later in the packet, is the resolved pin.</p>
+            </div>
+          </div>
+          <div class="finding" data-finding="medium">
+            <div class="pill medium">medium</div>
+            <div>
+              <strong>Runtime packaging changed</strong>
+              <div class="path">Dockerfile</div>
+              <p>Image, cluster, or infra changed. Read it before the changelog.</p>
+            </div>
+          </div>
+          <div class="finding" data-finding="medium">
+            <div class="pill medium">medium</div>
+            <div>
+              <strong>Public export changed</strong>
+              <div class="path">src/api/index.ts</div>
+              <p>This is the contract other callers will see. Read it before the implementation that backs it.</p>
+            </div>
+          </div>
+          <div class="finding" data-finding="medium">
+            <div class="pill medium">medium</div>
+            <div>
+              <strong>Lockfile changed</strong>
+              <div class="path">package-lock.json</div>
+              <p>Skim this after the manifest. You are looking for a surprise package, not a line-by-line read.</p>
+            </div>
+          </div>
+          <div class="finding" data-finding="info">
+            <div class="pill info">info</div>
+            <div>
+              <strong>Generated file</strong>
+              <div class="path">src/generated/types.ts</div>
+              <p>Review the source that generates it. This file can wait.</p>
+            </div>
+          </div>
+      </section>
+      <section class="section">
+        <h2>Files</h2>
+        <article class="card" id="file-1">
+    <h3>src/api/index.ts</h3>
+    <div class="sub">modified · Public API · +2 −0 · medium 8</div>
+    
+    <p class="file-finding"><span class="pill medium">medium</span> <span><strong>Public export changed.</strong> This is the contract other callers will see. Read it before the implementation that backs it.</span></p>
+    <div class="diff"><div class="diff-body"><div class="hunk">@@ -1,3 +1,5 @@ </div><div class="context"><span>1</span><span> export { charge } from &quot;../billing/charge&quot;;</span></div><div class="add"><span>2</span><span>+export { verify, sign } from &quot;../webhooks/verify&quot;;</span></div><div class="add"><span>3</span><span>+export type { Invoice } from &quot;../billing/invoice&quot;;</span></div><div class="context"><span>4</span><span> export const version = &quot;2026.9.0&quot;;</span></div></div></div>
+  </article><article class="card" id="file-2">
+    <h3>src/webhooks/fixture.ts</h3>
+    <div class="sub">added · Signing · +4 −0 · high 34</div>
+    
+    <p class="file-finding"><span class="pill high">high</span> <span><strong>Secret-shaped string added.</strong> Pattern: Stripe live key. If it is real, rotate it. If it is a fixture, use an obvious placeholder.</span></p>
+    <div class="diff"><div class="diff-body"><div class="hunk">@@ -0,0 +1,4 @@ </div><div class="add"><span>1</span><span>+export const sample = {</span></div><div class="add"><span>2</span><span>+  endpoint: &quot;https://example.test/hooks&quot;,</span></div><div class="add"><span>3</span><span>+  secret: &quot;sk_live_••••&quot;,</span></div><div class="add"><span>4</span><span>+};</span></div></div></div>
+  </article><article class="card" id="file-3">
+    <h3>src/webhooks/verify.ts</h3>
+    <div class="sub">added · Signing · +14 −0 · high 30</div>
+    
+    <p class="file-finding"><span class="pill high">high</span> <span><strong>Signature compared with ==.</strong> Equality on a digest leaks timing. A constant-time compare belongs on the raw bytes, and the two sides need to be the same length.</span></p>
+    <div class="diff"><div class="diff-body"><div class="hunk">@@ -0,0 +1,14 @@ </div><div class="add"><span>1</span><span>+import { createHmac, timingSafeEqual } from &quot;node:crypto&quot;;</span></div><div class="add"><span>2</span><span>+</span></div><div class="add"><span>3</span><span>+export function sign(secret: string, body: string, timestamp: string): string {</span></div><div class="add"><span>4</span><span>+  return createHmac(&quot;sha256&quot;, secret).update(`${timestamp}.${body}`).digest(&quot;hex&quot;);</span></div><div class="add"><span>5</span><span>+}</span></div><div class="add"><span>6</span><span>+</span></div><div class="add"><span>7</span><span>+export function verify(secret: string, body: string, header: string): boolean {</span></div><div class="add"><span>8</span><span>+  const [timestamp, signature] = header.split(&quot;,&quot;);</span></div><div class="add"><span>9</span><span>+  const expected = sign(secret, body, timestamp.replace(&quot;t=&quot;, &quot;&quot;));</span></div><div class="add"><span>10</span><span>+  if (signature.replace(&quot;v1=&quot;, &quot;&quot;) === expected) {</span></div><div class="add"><span>11</span><span>+    return true;</span></div><div class="add"><span>12</span><span>+  }</span></div><div class="add"><span>13</span><span>+  return timingSafeEqual(Buffer.from(expected), Buffer.from(expected));</span></div><div class="add"><span>14</span><span>+}</span></div></div></div>
+  </article><article class="card" id="file-4">
+    <h3>.github/workflows/release.yml</h3>
+    <div class="sub">modified · Automation · +4 −0 · high 28</div>
+    
+    <p class="file-finding"><span class="pill high">high</span> <span><strong>Workflow grants write permissions.</strong> A stolen token in this workflow can push code or publish a package. Read the permission block before the step list.</span></p>
+    <div class="diff"><div class="diff-body"><div class="hunk">@@ -8,6 +8,10 @@ jobs:</div><div class="context"><span>8</span><span>     runs-on: ubuntu-latest</span></div><div class="add"><span>9</span><span>+    permissions:</span></div><div class="add"><span>10</span><span>+      contents: write</span></div><div class="add"><span>11</span><span>+      id-token: write</span></div><div class="add"><span>12</span><span>+      packages: write</span></div><div class="context"><span>13</span><span>     steps:</span></div><div class="context"><span>14</span><span>       - uses: actions/checkout@v4</span></div></div></div>
+  </article><article class="card" id="file-5">
+    <h3>src/billing/invoice.ts</h3>
+    <div class="sub">added · Billing · +27 −0 · medium 26</div>
+    
+    <p class="file-finding"><span class="pill medium">medium</span> <span><strong>Billing path changed.</strong> Read the behavior here before docs, lockfiles, or generated code.</span></p><p class="file-finding"><span class="pill medium">medium</span> <span><strong>Behavior changed without a matching test.</strong> Nothing in this diff covers “invoice”. If the change is pure wiring, say so in the pull request.</span></p>
+    <div class="diff"><div class="diff-body"><div class="hunk">@@ -0,0 +1,26 @@ </div><div class="add"><span>1</span><span>+export interface Invoice {</span></div><div class="add"><span>2</span><span>+  id: string;</span></div><div class="add"><span>3</span><span>+  currency: string;</span></div><div class="add"><span>4</span><span>+  lines: Array&lt;{ sku: string; amount: number }&gt;;</span></div><div class="add"><span>5</span><span>+}</span></div><div class="add"><span>6</span><span>+</span></div><div class="add"><span>7</span><span>+export function createInvoice(id: string, currency: string): Invoice {</span></div><div class="add"><span>8</span><span>+  if (!/^[A-Z]{3}$/.test(currency)) {</span></div><div class="add"><span>9</span><span>+    throw new Error(&quot;currency must be a 3-letter code&quot;);</span></div><div class="add"><span>10</span><span>+  }</span></div><div class="add"><span>11</span><span>+  return { id, currency, lines: [] };</span></div><div class="add"><span>12</span><span>+}</span></div><div class="add"><span>13</span><span>+</span></div><div class="add"><span>14</span><span>+export function addLine(invoice: Invoice, sku: string, amount: number): Invoice {</span></div><div class="add"><span>15</span><span>+  if (!sku.trim()) throw new Error(&quot;sku&quot;);</span></div><div class="add"><span>16</span><span>+  if (!Number.isInteger(amount) || amount &lt;= 0) {</span></div><div class="add"><span>17</span><span>+    throw new Error(&quot;amount must be a positive integer in minor units&quot;);</span></div><div class="add"><span>18</span><span>+  }</span></div><div class="add"><span>19</span><span>+  return {</span></div><div class="add"><span>20</span><span>+    ...invoice,</span></div><div class="add"><span>21</span><span>+    lines: [...invoice.lines, { sku, amount }],</span></div><div class="add"><span>22</span><span>+  };</span></div><div class="add"><span>23</span><span>+}</span></div><div class="add"><span>24</span><span>+</span></div><div class="add"><span>25</span><span>+export function total(invoice: Invoice): number {</span></div><div class="add"><span>26</span><span>+  return invoice.lines.reduce((sum, line) =&gt; sum + line.amount, 0);</span></div><div class="add"><span>27</span><span>+}</span></div></div></div>
+  </article><article class="card" id="file-6">
+    <h3>test/webhooks/verify.test.ts</h3>
+    <div class="sub">deleted · Tests · +0 −6 · high 26</div>
+    
+    <p class="file-finding"><span class="pill high">high</span> <span><strong>Test file deleted.</strong> Deleted coverage does not come back on its own. Check the replacement test, or the reason there isn't one.</span></p>
+    <div class="diff"><div class="diff-body"><div class="hunk">@@ -1,8 +0,0 @@ </div><div class="del"><span>1</span><span>−import { verify } from &quot;../../src/webhooks/verify&quot;;</span></div><div class="del"><span>2</span><span>−</span></div><div class="del"><span>3</span><span>−test(&quot;rejects a bad signature&quot;, () =&gt; {</span></div><div class="del"><span>4</span><span>−  const ok = verify(&quot;test-secret&quot;, &quot;{}&quot;, &quot;t=1,v1=nope&quot;);</span></div><div class="del"><span>5</span><span>−  expect(ok).toBe(false);</span></div><div class="del"><span>6</span><span>−});</span></div></div></div>
+  </article><article class="card" id="file-7">
+    <h3>migrations/2026_09_23_api_keys.sql</h3>
+    <div class="sub">added · Schema migration · +15 −0 · high 24</div>
+    
+    <p class="file-finding"><span class="pill high">high</span> <span><strong>Schema change.</strong> Read the up path and how it rolls back. A default on a hot table is still a migration.</span></p>
+    <div class="diff"><div class="diff-body"><div class="hunk">@@ -0,0 +1,16 @@ </div><div class="add"><span>1</span><span>+create table api_keys (</span></div><div class="add"><span>2</span><span>+  id uuid primary key,</span></div><div class="add"><span>3</span><span>+  org_id uuid not null,</span></div><div class="add"><span>4</span><span>+  prefix text not null,</span></div><div class="add"><span>5</span><span>+  secret_hash text not null,</span></div><div class="add"><span>6</span><span>+  created_at timestamptz not null default now()</span></div><div class="add"><span>7</span><span>+);</span></div><div class="add"><span>8</span><span>+</span></div><div class="add"><span>9</span><span>+alter table api_keys enable row level security;</span></div><div class="add"><span>10</span><span>+</span></div><div class="add"><span>11</span><span>+create policy org_isolation on api_keys</span></div><div class="add"><span>12</span><span>+  using (org_id = current_setting('app.org_id')::uuid);</span></div><div class="add"><span>13</span><span>+</span></div><div class="add"><span>14</span><span>+alter table deliveries</span></div><div class="add"><span>15</span><span>+  add column signature_version int not null default 1;</span></div></div></div>
+  </article><article class="card" id="file-8">
+    <h3>src/billing/charge.ts</h3>
+    <div class="sub">modified · Billing · +5 −1 · medium 14</div>
+    
+    <p class="file-finding"><span class="pill medium">medium</span> <span><strong>Billing path changed.</strong> Read the behavior here before docs, lockfiles, or generated code.</span></p>
+    <div class="diff"><div class="diff-body"><div class="hunk">@@ -1,8 +1,11 @@ </div><div class="context"><span>1</span><span> export function charge(amount: number, currency: string) {</span></div><div class="del"><span>2</span><span>−  if (amount &lt;= 0) throw new Error(&quot;amount&quot;);</span></div><div class="add"><span>2</span><span>+  if (!Number.isInteger(amount) || amount &lt;= 0) {</span></div><div class="add"><span>3</span><span>+    throw new Error(&quot;amount must be a positive integer in minor units&quot;);</span></div><div class="add"><span>4</span><span>+  }</span></div><div class="add"><span>5</span><span>+  if (currency.length !== 3) throw new Error(&quot;currency&quot;);</span></div><div class="context"><span>6</span><span>   return {</span></div><div class="context"><span>7</span><span>     amount,</span></div><div class="context"><span>8</span><span>     currency,</span></div><div class="add"><span>9</span><span>+    captured: true,</span></div><div class="context"><span>10</span><span>   };</span></div><div class="context"><span>11</span><span> }</span></div></div></div>
+  </article><article class="card" id="file-9">
+    <h3>package.json</h3>
+    <div class="sub">modified · Dependencies · +1 −0 · medium 10</div>
+    
+    <p class="file-finding"><span class="pill medium">medium</span> <span><strong>Dependency manifest changed.</strong> Read the new range here. The lockfile, later in the packet, is the resolved pin.</span></p>
+    <div class="diff"><div class="diff-body"><div class="hunk">@@ -12,6 +12,7 @@ </div><div class="context"><span>12</span><span>   &quot;dependencies&quot;: {</span></div><div class="context"><span>13</span><span>     &quot;zod&quot;: &quot;^3.23.8&quot;,</span></div><div class="add"><span>14</span><span>+    &quot;stripe&quot;: &quot;^17.4.0&quot;,</span></div><div class="context"><span>15</span><span>     &quot;pino&quot;: &quot;^9.4.0&quot;</span></div><div class="context"><span>16</span><span>   },</span></div></div></div>
+  </article><article class="card" id="file-10">
+    <h3>Dockerfile</h3>
+    <div class="sub">modified · Runtime config · +1 −0 · medium 9</div>
+    
+    <p class="file-finding"><span class="pill medium">medium</span> <span><strong>Runtime packaging changed.</strong> Image, cluster, or infra changed. Read it before the changelog.</span></p>
+    <div class="diff"><div class="diff-body"><div class="hunk">@@ -1,4 +1,5 @@ </div><div class="context"><span>1</span><span> FROM node:22-alpine</span></div><div class="add"><span>2</span><span>+USER node</span></div><div class="context"><span>3</span><span> WORKDIR /app</span></div><div class="context"><span>4</span><span> COPY package.json package-lock.json ./</span></div><div class="context"><span>5</span><span> RUN npm ci --omit=dev</span></div></div></div>
+  </article><article class="card" id="file-11">
+    <h3>test/billing/charge.test.ts</h3>
+    <div class="sub">modified · Tests · +5 −1 · calm 0</div>
+    
+    
+    <div class="diff"><div class="diff-body"><div class="hunk">@@ -1,6 +1,9 @@ </div><div class="context"><span>1</span><span> import { charge } from &quot;../../src/billing/charge&quot;;</span></div><div class="context"><span>2</span><span> </span></div><div class="context"><span>3</span><span> test(&quot;rejects zero&quot;, () =&gt; {</span></div><div class="del"><span>4</span><span>−  expect(() =&gt; charge(0, &quot;usd&quot;)).toThrow();</span></div><div class="add"><span>4</span><span>+  expect(() =&gt; charge(0, &quot;usd&quot;)).toThrow(/minor units/);</span></div><div class="context"><span>5</span><span> });</span></div><div class="add"><span>6</span><span>+</span></div><div class="add"><span>7</span><span>+test(&quot;rejects bad currency&quot;, () =&gt; {</span></div><div class="add"><span>8</span><span>+  expect(() =&gt; charge(100, &quot;US&quot;)).toThrow(/currency/);</span></div><div class="add"><span>9</span><span>+});</span></div></div></div>
+  </article><article class="card" id="file-12">
+    <h3>docs/webhooks.md</h3>
+    <div class="sub">modified · Docs · +2 −0 · calm 0</div>
+    
+    
+    <div class="diff"><div class="diff-body"><div class="hunk">@@ -1,3 +1,5 @@ </div><div class="context"><span>1</span><span> # Webhooks</span></div><div class="context"><span>2</span><span> </span></div><div class="context"><span>3</span><span> Send `t=&lt;unix&gt;,v1=&lt;hex&gt;` in `X-Signature`.</span></div><div class="add"><span>4</span><span>+</span></div><div class="add"><span>5</span><span>+Keys are stored as hashes. The sample fixture is not a credential.</span></div></div></div>
+  </article><article class="card" id="file-13">
+    <h3>package-lock.json</h3>
+    <div class="sub">modified · Lockfile · +5 −0 · medium 5</div>
+    
+    <p class="file-finding"><span class="pill medium">medium</span> <span><strong>Lockfile changed.</strong> Skim this after the manifest. You are looking for a surprise package, not a line-by-line read.</span></p>
+    <div class="diff"><div class="diff-body"><div class="hunk">@@ -10,3 +10,9 @@ </div><div class="context"><span>10</span><span>     &quot;node_modules/zod&quot;: {</span></div><div class="context"><span>11</span><span>       &quot;version&quot;: &quot;3.23.8&quot;</span></div><div class="context"><span>12</span><span>     },</span></div><div class="add"><span>13</span><span>+    &quot;node_modules/stripe&quot;: {</span></div><div class="add"><span>14</span><span>+      &quot;version&quot;: &quot;17.4.0&quot;,</span></div><div class="add"><span>15</span><span>+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/stripe/-/stripe-17.4.0.tgz&quot;,</span></div><div class="add"><span>16</span><span>+      &quot;integrity&quot;: &quot;sha512-example&quot;</span></div><div class="add"><span>17</span><span>+    },</span></div></div></div>
+  </article><article class="card" id="file-14">
+    <h3>src/generated/types.ts</h3>
+    <div class="sub">modified · Generated · +1 −0 · calm 1</div>
+    
+    <p class="file-finding"><span class="pill info">info</span> <span><strong>Generated file.</strong> Review the source that generates it. This file can wait.</span></p>
+    <div class="diff"><div class="diff-body"><div class="hunk">@@ -1,2 +1,3 @@ </div><div class="context"><span>1</span><span> // generated by schema-gen — do not edit</span></div><div class="context"><span>2</span><span> export type OrgId = string;</span></div><div class="add"><span>3</span><span>+export type SignatureVersion = 1;</span></div></div></div>
+  </article>
+      </section>
+    </article>
+    <footer>Skimless does not execute the diff and does not call a model. Scores are a reading priority, not a proof that something is safe.</footer>
+  </div>
+  <script>
+    const buttons = document.querySelectorAll("[data-sev]");
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        buttons.forEach((item) => item.classList.remove("on"));
+        button.classList.add("on");
+        const severity = button.getAttribute("data-sev");
+        document.querySelectorAll("[data-finding]").forEach((row) => {
+          row.hidden = severity !== "all" && row.getAttribute("data-finding") !== severity;
+        });
+      });
+    });
+  </script>
+</body>
+</html>

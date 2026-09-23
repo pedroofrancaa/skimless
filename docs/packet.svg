@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="956" viewBox="0 0 920 956" role="img" aria-label="Skimless review packet: Do not skim this one">
+  <defs>
+    <radialGradient id="glow" cx="12%" cy="-10%" r="70%">
+      <stop offset="0" stop-color="#d84a2f" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#d84a2f" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="920" height="956" rx="18" fill="#13120f"/>
+  <rect width="920" height="956" rx="18" fill="url(#glow)"/>
+  <text x="32" y="42" font-family="Fraunces, 'Iowan Old Style', Palatino, Georgia, serif" font-size="26" letter-spacing="-1" fill="#f4efe6">Skimless<tspan fill="#d84a2f">.</tspan></text>
+  <text x="888" y="40" text-anchor="end" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#b9b1a6">packet dfd88e30 · story</text>
+  <rect x="28" y="64" width="864" height="872" rx="16" fill="#f4efe6"/>
+  <text x="56" y="102" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" letter-spacing="1.6" fill="#d84a2f">REVIEW PACKET</text>
+  <text x="54" y="152" font-family="Fraunces, 'Iowan Old Style', Palatino, Georgia, serif" font-size="46" letter-spacing="-1.8" fill="#1b1814">Do not skim this one</text>
+  <text x="56" y="186" font-family="Outfit, 'Avenir Next', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" fill="#3c3832">14 files · +86 −8 · about 2 min · 5 high-priority findings</text>
+  <text x="56" y="230" font-family="Fraunces, 'Iowan Old Style', Palatino, Georgia, serif" font-size="22" letter-spacing="-0.6" fill="#1b1814">Reading order</text>
+  <rect x="48" y="260" width="824" height="40" rx="10" fill="#faf7f1"/>
+  <text x="66" y="285" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#6d655c">01</text>
+  <text x="106" y="277" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1b1814">src/api/index.ts</text>
+  <text x="106" y="293" font-family="Outfit, 'Avenir Next', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#6d655c">Public export changed</text>
+  <rect x="786" y="270" width="78" height="20" rx="10" fill="#f6e6cf"/>
+  <text x="825" y="284" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="0.4" fill="#8a4b12">THEN THIS</text>
+  <rect x="48" y="306" width="824" height="40" rx="10" fill="#faf7f1"/>
+  <text x="66" y="331" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#6d655c">02</text>
+  <text x="106" y="323" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1b1814">src/webhooks/fixture.ts</text>
+  <text x="106" y="339" font-family="Outfit, 'Avenir Next', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#6d655c">Secret-shaped string added</text>
+  <rect x="792" y="316" width="72" height="20" rx="10" fill="#f6ddd8"/>
+  <text x="828" y="330" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="0.4" fill="#8d241c">READ NOW</text>
+  <rect x="48" y="352" width="824" height="40" rx="10" fill="#faf7f1"/>
+  <text x="66" y="377" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#6d655c">03</text>
+  <text x="106" y="369" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1b1814">src/webhooks/verify.ts</text>
+  <text x="106" y="385" font-family="Outfit, 'Avenir Next', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#6d655c">Signature compared with ==</text>
+  <rect x="792" y="362" width="72" height="20" rx="10" fill="#f6ddd8"/>
+  <text x="828" y="376" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="0.4" fill="#8d241c">READ NOW</text>
+  <rect x="48" y="398" width="824" height="40" rx="10" fill="#faf7f1"/>
+  <text x="66" y="423" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#6d655c">04</text>
+  <text x="106" y="415" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1b1814">.github/workflows/release.yml</text>
+  <text x="106" y="431" font-family="Outfit, 'Avenir Next', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#6d655c">Workflow grants write permissions</text>
+  <rect x="792" y="408" width="72" height="20" rx="10" fill="#f6ddd8"/>
+  <text x="828" y="422" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="0.4" fill="#8d241c">READ NOW</text>
+  <rect x="48" y="444" width="824" height="40" rx="10" fill="#faf7f1"/>
+  <text x="66" y="469" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#6d655c">05</text>
+  <text x="106" y="461" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1b1814">src/billing/invoice.ts</text>
+  <text x="106" y="477" font-family="Outfit, 'Avenir Next', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#6d655c">Billing path changed</text>
+  <rect x="786" y="454" width="78" height="20" rx="10" fill="#f6e6cf"/>
+  <text x="825" y="468" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="0.4" fill="#8a4b12">THEN THIS</text>
+  <rect x="48" y="490" width="824" height="40" rx="10" fill="#faf7f1"/>
+  <text x="66" y="515" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#6d655c">06</text>
+  <text x="106" y="507" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1b1814">test/webhooks/verify.test.ts</text>
+  <text x="106" y="523" font-family="Outfit, 'Avenir Next', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#6d655c">Test file deleted</text>
+  <rect x="792" y="500" width="72" height="20" rx="10" fill="#f6ddd8"/>
+  <text x="828" y="514" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="0.4" fill="#8d241c">READ NOW</text>
+  <rect x="48" y="536" width="824" height="40" rx="10" fill="#faf7f1"/>
+  <text x="66" y="561" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#6d655c">07</text>
+  <text x="106" y="553" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1b1814">migrations/2026_09_23_api_keys.sql</text>
+  <text x="106" y="569" font-family="Outfit, 'Avenir Next', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#6d655c">Schema change</text>
+  <rect x="792" y="546" width="72" height="20" rx="10" fill="#f6ddd8"/>
+  <text x="828" y="560" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="0.4" fill="#8d241c">READ NOW</text>
+  <rect x="48" y="582" width="824" height="40" rx="10" fill="#faf7f1"/>
+  <text x="66" y="607" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#6d655c">08</text>
+  <text x="106" y="599" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1b1814">src/billing/charge.ts</text>
+  <text x="106" y="615" font-family="Outfit, 'Avenir Next', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#6d655c">Billing path changed</text>
+  <rect x="786" y="592" width="78" height="20" rx="10" fill="#f6e6cf"/>
+  <text x="825" y="606" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="0.4" fill="#8a4b12">THEN THIS</text>
+  <rect x="48" y="628" width="824" height="40" rx="10" fill="#faf7f1"/>
+  <text x="66" y="653" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#6d655c">09</text>
+  <text x="106" y="645" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1b1814">package.json</text>
+  <text x="106" y="661" font-family="Outfit, 'Avenir Next', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#6d655c">Dependency manifest changed</text>
+  <rect x="786" y="638" width="78" height="20" rx="10" fill="#f6e6cf"/>
+  <text x="825" y="652" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="0.4" fill="#8a4b12">THEN THIS</text>
+  <rect x="48" y="674" width="824" height="40" rx="10" fill="#faf7f1"/>
+  <text x="66" y="699" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#6d655c">10</text>
+  <text x="106" y="691" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1b1814">Dockerfile</text>
+  <text x="106" y="707" font-family="Outfit, 'Avenir Next', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#6d655c">Runtime packaging changed</text>
+  <rect x="786" y="684" width="78" height="20" rx="10" fill="#f6e6cf"/>
+  <text x="825" y="698" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="0.4" fill="#8a4b12">THEN THIS</text>
+  <rect x="48" y="720" width="824" height="40" rx="10" fill="#faf7f1"/>
+  <text x="66" y="745" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#6d655c">11</text>
+  <text x="106" y="737" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1b1814">test/billing/charge.test.ts</text>
+  <text x="106" y="753" font-family="Outfit, 'Avenir Next', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#6d655c">Tests</text>
+  <rect x="792" y="730" width="72" height="20" rx="10" fill="#e7e1d6"/>
+  <text x="828" y="744" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="0.4" fill="#514b43">CAN WAIT</text>
+  <rect x="48" y="766" width="824" height="40" rx="10" fill="#faf7f1"/>
+  <text x="66" y="791" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#6d655c">12</text>
+  <text x="106" y="783" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1b1814">docs/webhooks.md</text>
+  <text x="106" y="799" font-family="Outfit, 'Avenir Next', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#6d655c">Docs</text>
+  <rect x="792" y="776" width="72" height="20" rx="10" fill="#e7e1d6"/>
+  <text x="828" y="790" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="0.4" fill="#514b43">CAN WAIT</text>
+  <rect x="48" y="812" width="824" height="40" rx="10" fill="#faf7f1"/>
+  <text x="66" y="837" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#6d655c">13</text>
+  <text x="106" y="829" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1b1814">package-lock.json</text>
+  <text x="106" y="845" font-family="Outfit, 'Avenir Next', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#6d655c">Lockfile changed</text>
+  <rect x="792" y="822" width="72" height="20" rx="10" fill="#e7e1d6"/>
+  <text x="828" y="836" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="0.4" fill="#514b43">CAN WAIT</text>
+  <rect x="48" y="858" width="824" height="40" rx="10" fill="#faf7f1"/>
+  <text x="66" y="883" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#6d655c">14</text>
+  <text x="106" y="875" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1b1814">src/generated/types.ts</text>
+  <text x="106" y="891" font-family="Outfit, 'Avenir Next', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#6d655c">Generated file</text>
+  <rect x="792" y="868" width="72" height="20" rx="10" fill="#e7e1d6"/>
+  <text x="828" y="882" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="0.4" fill="#514b43">CAN WAIT</text>
+</svg>

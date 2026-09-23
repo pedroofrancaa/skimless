@@ -1,0 +1,17 @@
+name: Rule or language
+description: A heuristic or a locale
+title: "Rule: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: sentence
+    attributes:
+      label: The rule in one sentence
+    validations:
+      required: true
+  - type: textarea
+    id: diff
+    attributes:
+      label: A diff that should trigger it, and one that should not
+    validations:
+      required: true

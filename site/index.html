@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skimless — the reading order for pull requests that got too big</title>
+  <meta name="description" content="Skimless turns a diff into a packet: what to read first, what can wait, and which lines deserve a human. Offline. No model. Zero runtime dependencies.">
+  <link rel="icon" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,650&family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #12110e;
+      --paper: #f3eee4;
+      --ink: #1b1814;
+      --muted: #6e665d;
+      --line: #ddd4c4;
+      --accent: #d84a2f;
+      --serif: "Fraunces", "Iowan Old Style", Palatino, Georgia, serif;
+      --sans: "Outfit", "Avenir Next", "Segoe UI", sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(900px 420px at 80% -10%, rgba(216, 74, 47, 0.22), transparent 55%),
+        var(--bg);
+      color: var(--paper);
+      font-family: var(--sans);
+      line-height: 1.5;
+    }
+    a { color: inherit; }
+    .nav, .hero, .band, footer { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+    .nav { display: flex; justify-content: space-between; align-items: center; padding-top: 22px; padding-bottom: 8px; }
+    .word { font-family: var(--serif); font-size: 28px; letter-spacing: -0.04em; }
+    .word i { color: var(--accent); font-style: normal; }
+    .nav nav { display: flex; gap: 18px; align-items: center; color: #d9d0c4; font-size: 14px; }
+    .nav button, .text-btn {
+      font: inherit; color: inherit; background: transparent; border: 0; cursor: pointer; padding: 0;
+    }
+    .nav button.on { color: white; }
+    body[data-ui="en"] [data-lang="pt"], body[data-ui="pt"] [data-lang="en"] { display: none; }
+    .hero { padding-top: 28px; padding-bottom: 28px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 36px; align-items: start; }
+    .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 12px; }
+    h1 { font-family: var(--serif); font-weight: 560; font-size: clamp(46px, 6vw, 78px); letter-spacing: -0.045em; line-height: 0.92; margin: 0; }
+    .lede { font-size: 19px; max-width: 46ch; color: #e7e0d4; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
+    .btn { text-decoration: none; border-radius: 999px; padding: 10px 16px; background: var(--accent); color: white; font-weight: 600; }
+    .btn.ghost { background: transparent; color: var(--paper); border: 1px solid #3c3832; }
+    .card { background: var(--paper); color: var(--ink); border-radius: 18px; padding: 18px 18px 10px; box-shadow: 0 30px 70px rgba(0,0,0,.35); }
+    .card h2 { font-family: var(--serif); font-size: 32px; letter-spacing: -0.04em; margin: 6px 0; }
+    .card p { margin: 0 0 12px; color: #3e3933; }
+    ol { list-style: none; margin: 0; padding: 0; }
+    li { display: grid; grid-template-columns: 28px 1fr auto; gap: 8px; align-items: baseline; padding: 8px 0; border-top: 1px solid var(--line); font-size: 14px; }
+    .path { font-family: var(--mono); font-size: 12px; }
+    .why { color: var(--muted); }
+    .pill { font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 999px; padding: 3px 7px; }
+    .now { background: #f6ddd8; color: #8d241c; }
+    .soon { background: #f6e6cf; color: #8a4b12; }
+    .later { background: #e7e1d6; color: #514b43; }
+    .band { padding: 28px 24px 10px; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    article { border: 1px solid #2b2823; border-radius: 16px; padding: 16px 16px 8px; background: #191815; }
+    article h3 { font-family: var(--serif); font-size: 26px; margin: 0 0 8px; letter-spacing: -0.03em; }
+    article p { color: #d5cdc2; margin-top: 0; }
+    pre { background: #0d0c0a; color: #f3eee4; border-radius: 14px; padding: 16px 18px; overflow: auto; font-family: var(--mono); font-size: 13px; line-height: 1.55; }
+    .note { color: #b7aea3; max-width: 70ch; }
+    footer { padding: 28px 24px 48px; color: #b7aea3; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    @media (max-width: 860px) {
+      .hero, .grid { grid-template-columns: 1fr; }
+      .nav nav { gap: 10px; }
+    }
+  </style>
+</head>
+<body data-ui="en">
+  <div class="nav">
+    <div class="word">Skimless<i>.</i></div>
+    <nav>
+      <button type="button" data-set-lang="en" class="on">EN</button>
+      <button type="button" data-set-lang="pt">PT</button>
+      <a href="proof.html" data-lang="en">Sample packet</a>
+      <a href="prova.html" data-lang="pt">Pacote de exemplo</a>
+      <a href="https://github.com/pedroofrancaa/skimless">GitHub</a>
+    </nav>
+  </div>
+
+  <header class="hero">
+    <div>
+      <p class="eyebrow" data-lang="en">Offline · zero dependencies · no model</p>
+      <p class="eyebrow" data-lang="pt">Offline · zero dependências · sem modelo</p>
+      <h1 data-lang="en">The reading order for pull requests that got too big.</h1>
+      <h1 data-lang="pt">A ordem de leitura para pull requests que cresceram demais.</h1>
+      <p class="lede" data-lang="en">Skimless turns a diff into a packet: what to read first, which files can wait, and which lines deserve a human. It stays on your machine.</p>
+      <p class="lede" data-lang="pt">O Skimless transforma um diff num pacote: o que ler primeiro, o que pode esperar, e quais linhas merecem uma pessoa. Ele fica na sua máquina.</p>
+      <div class="actions">
+        <a class="btn" href="proof.html" data-lang="en">Open the sample packet</a>
+        <a class="btn" href="prova.html" data-lang="pt">Abrir o pacote de exemplo</a>
+        <a class="btn ghost" href="#run" data-lang="en">Run it locally</a>
+        <a class="btn ghost" href="#run" data-lang="pt">Rodar local</a>
+      </div>
+    </div>
+    <div class="card">
+      <p class="eyebrow">14 files · high</p>
+      <h2 data-lang="en">Do not skim this one</h2>
+      <h2 data-lang="pt">Não passa o olho nesse</h2>
+      <p data-lang="en">First pass: the public export, a live-shaped key, then the signature check.</p>
+      <p data-lang="pt">Primeira passada: o export público, uma chave com cara de live, depois a checagem de assinatura.</p>
+      <ol>
+        <li><span>01</span><span><span class="path">src/api/index.ts</span><br><span class="why" data-lang="en">Public export changed</span><span class="why" data-lang="pt">Export público mudou</span></span><span class="pill soon" data-lang="en">Then</span><span class="pill soon" data-lang="pt">Depois</span></li>
+        <li><span>02</span><span><span class="path">src/webhooks/fixture.ts</span><br><span class="why" data-lang="en">Secret-shaped string</span><span class="why" data-lang="pt">String com cara de segredo</span></span><span class="pill now" data-lang="en">Now</span><span class="pill now" data-lang="pt">Agora</span></li>
+        <li><span>03</span><span><span class="path">src/webhooks/verify.ts</span><br><span class="why" data-lang="en">Signature compared with ==</span><span class="why" data-lang="pt">Assinatura comparada com ==</span></span><span class="pill now" data-lang="en">Now</span><span class="pill now" data-lang="pt">Agora</span></li>
+        <li><span>04</span><span><span class="path">.github/workflows/release.yml</span><br><span class="why" data-lang="en">Workflow grants write</span><span class="why" data-lang="pt">Workflow concede escrita</span></span><span class="pill now" data-lang="en">Now</span><span class="pill now" data-lang="pt">Agora</span></li>
+        <li><span>05</span><span><span class="path">src/billing/invoice.ts</span><br><span class="why" data-lang="en">Billing path changed</span><span class="why" data-lang="pt">Caminho de cobrança mudou</span></span><span class="pill soon" data-lang="en">Then</span><span class="pill soon" data-lang="pt">Depois</span></li>
+        <li><span>14</span><span><span class="path">src/generated/types.ts</span><br><span class="why" data-lang="en">Generated file</span><span class="why" data-lang="pt">Arquivo gerado</span></span><span class="pill later" data-lang="en">Wait</span><span class="pill later" data-lang="pt">Espera</span></li>
+      </ol>
+    </div>
+  </header>
+
+  <section class="band">
+    <div class="grid">
+      <article>
+        <h3 data-lang="en">A path, not a pile.</h3>
+        <h3 data-lang="pt">Um caminho, não uma pilha.</h3>
+        <p data-lang="en">Story order puts the public API first, then auth, billing, migrations, and CI. Lockfiles and generated code wait at the end.</p>
+        <p data-lang="pt">A ordem narrativa põe a API pública primeiro, depois auth, cobrança, migrações e CI. Lockfile e código gerado esperam no fim.</p>
+      </article>
+      <article>
+        <h3 data-lang="en">Reasons you can check.</h3>
+        <h3 data-lang="pt">Motivos que dá para checar.</h3>
+        <p data-lang="en">Every flag names its rule. Twenty-one of them, each one a sentence, across ten languages and the common CI runners. If a rule is noisy, delete it. There is no score you cannot recompute.</p>
+        <p data-lang="pt">Cada aviso diz qual regra disparou. São vinte e uma, cada uma numa frase, em dez linguagens e nos runners de CI mais comuns. Se uma regra faz barulho, apague. Não existe nota que você não consiga refazer.</p>
+      </article>
+      <article>
+        <h3 data-lang="en">Yours to run.</h3>
+        <h3 data-lang="pt">Roda com você.</h3>
+        <p data-lang="en">One Node command. No API key. Secret-shaped strings are redacted before you attach the HTML to a pull request.</p>
+        <p data-lang="pt">Um comando no Node. Sem chave de API. Strings com cara de segredo são redatadas antes de você anexar o HTML no pull request.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="band" id="run">
+    <h2 data-lang="en" style="font-family: var(--serif); font-size: 40px; letter-spacing: -0.04em; margin-bottom: 8px;">Twenty seconds</h2>
+    <h2 data-lang="pt" style="font-family: var(--serif); font-size: 40px; letter-spacing: -0.04em; margin-bottom: 8px;">Vinte segundos</h2>
+    <pre>npx skimless demo
+npx skimless demo --lang pt --format html --out skimless.html
+npx skimless review --base origin/main --fail-on high
+claude mcp add skimless -- npx -y skimless mcp</pre>
+    <p class="note" data-lang="en">Needs Node.js 22 or newer. There are no runtime dependencies. The sample packet is also in this folder: <a href="proof.html">English</a> and <a href="prova.html">Portuguese</a>.</p>
+    <p class="note" data-lang="pt">Precisa de Node.js 22 ou mais novo. Não há dependências de runtime. O pacote de exemplo também está nesta pasta: <a href="proof.html">inglês</a> e <a href="prova.html">português</a>.</p>
+    <p class="note" data-lang="en">Skimless will not notice that the sample <span class="path">verify.ts</span> calls <span class="path">timingSafeEqual</span> on a buffer compared with itself. You will, because the file is third.</p>
+    <p class="note" data-lang="pt">O Skimless não percebe que o <span class="path">verify.ts</span> de exemplo chama <span class="path">timingSafeEqual</span> num buffer comparado com ele mesmo. Você percebe, porque o arquivo é o terceiro.</p>
+  </section>
+
+  <footer>
+    <span>MIT · <a href="https://github.com/pedroofrancaa/skimless">Skimless on GitHub</a> · <a href="https://www.npmjs.com/package/skimless">npm</a></span>
+    <span data-lang="en">A reading priority, not a safety proof.</span>
+    <span data-lang="pt">Prioridade de leitura, não prova de segurança.</span>
+  </footer>
+  <script>
+    const buttons = document.querySelectorAll("[data-set-lang]");
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        document.body.dataset.ui = button.getAttribute("data-set-lang");
+        buttons.forEach((item) => item.classList.toggle("on", item === button));
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
+  "name": "io.github.pedroofrancaa/skimless",
+  "title": "Skimless",
+  "description": "Reading order for big pull requests: what to read first, what can wait. Offline, no model.",
+  "websiteUrl": "https://pedroofrancaa.github.io/skimless/",
+  "repository": {
+    "url": "https://github.com/pedroofrancaa/skimless",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "skimless",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "mcp"
+        }
+      ]
+    }
+  ]
+}

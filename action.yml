@@ -1,0 +1,73 @@
+name: Skimless Review
+description: A reading order for pull requests that got too big. Offline, no model, no token.
+branding:
+  icon: book-open
+  color: orange
+inputs:
+  base:
+    description: "Base ref compared as ref...HEAD"
+    required: false
+    default: ""
+  fail-on:
+    description: "none, info, low, medium, or high"
+    required: false
+    default: high
+  format:
+    description: "text, html, md, json, or all"
+    required: false
+    default: html
+  out:
+    description: "Output path, or the stem when format is all"
+    required: false
+    default: skimless.html
+  lang:
+    description: "en or pt"
+    required: false
+    default: en
+  order:
+    description: "story or risk"
+    required: false
+    default: story
+  summary:
+    description: "Write a short packet to the job summary: true or false"
+    required: false
+    default: "true"
+runs:
+  using: composite
+  steps:
+    - name: Check Node.js
+      id: node
+      shell: bash
+      run: |
+        major="$(node -p "process.versions.node.split('.')[0]" 2>/dev/null || echo 0)"
+        if [ "$major" -lt 22 ]; then
+          echo "install=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "install=false" >> "$GITHUB_OUTPUT"
+        fi
+    - name: Set up Node.js 22
+      if: steps.node.outputs.install == 'true'
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
+    - name: Review packet
+      shell: bash
+      env:
+        SKIMLESS_BASE: ${{ inputs.base }}
+        SKIMLESS_FAIL: ${{ inputs.fail-on }}
+        SKIMLESS_FORMAT: ${{ inputs.format }}
+        SKIMLESS_OUT: ${{ inputs.out }}
+        SKIMLESS_LANG: ${{ inputs.lang }}
+        SKIMLESS_ORDER: ${{ inputs.order }}
+        SKIMLESS_SUMMARY: ${{ inputs.summary }}
+        SKIMLESS_ACTION_PATH: ${{ github.action_path }}
+      run: |
+        set -euo pipefail
+        args=(review --fail-on "$SKIMLESS_FAIL" --format "$SKIMLESS_FORMAT" --out "$SKIMLESS_OUT" --lang "$SKIMLESS_LANG" --order "$SKIMLESS_ORDER")
+        if [ -n "$SKIMLESS_BASE" ]; then
+          args+=(--base "$SKIMLESS_BASE")
+        fi
+        if [ "$SKIMLESS_SUMMARY" = "true" ] && [ -n "${GITHUB_STEP_SUMMARY:-}" ]; then
+          args+=(--summary "$GITHUB_STEP_SUMMARY")
+        fi
+        node --experimental-strip-types "$SKIMLESS_ACTION_PATH/src/cli.ts" "${args[@]}"

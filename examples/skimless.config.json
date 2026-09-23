@@ -1,0 +1,9 @@
+{
+  "failOn": "high",
+  "order": "story",
+  "lang": "en",
+  "budgetMinutes": 25,
+  "largeFileLines": 400,
+  "testGapLines": 15,
+  "ignore": ["**/*.snap", "**/dist/**"]
+}

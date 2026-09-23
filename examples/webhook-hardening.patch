@@ -1,0 +1,201 @@
+# Synthetic fixture. The Stripe-shaped key is not a real secret.
+diff --git a/src/api/index.ts b/src/api/index.ts
+index 555eeee..666ffff 100644
+--- a/src/api/index.ts
++++ b/src/api/index.ts
+@@ -1,3 +1,5 @@
+ export { charge } from "../billing/charge";
++export { verify, sign } from "../webhooks/verify";
++export type { Invoice } from "../billing/invoice";
+ export const version = "2026.9.0";
+diff --git a/src/webhooks/fixture.ts b/src/webhooks/fixture.ts
+new file mode 100644
+index 0000000..c3d4e5f
+--- /dev/null
++++ b/src/webhooks/fixture.ts
+@@ -0,0 +1,4 @@
++export const sample = {
++  endpoint: "https://example.test/hooks",
++  secret: "sk_live_51HhExampleKeyDoNotShip",
++};
+diff --git a/src/webhooks/verify.ts b/src/webhooks/verify.ts
+new file mode 100644
+index 0000000..b2c3d4e
+--- /dev/null
++++ b/src/webhooks/verify.ts
+@@ -0,0 +1,14 @@
++import { createHmac, timingSafeEqual } from "node:crypto";
++
++export function sign(secret: string, body: string, timestamp: string): string {
++  return createHmac("sha256", secret).update(`${timestamp}.${body}`).digest("hex");
++}
++
++export function verify(secret: string, body: string, header: string): boolean {
++  const [timestamp, signature] = header.split(",");
++  const expected = sign(secret, body, timestamp.replace("t=", ""));
++  if (signature.replace("v1=", "") === expected) {
++    return true;
++  }
++  return timingSafeEqual(Buffer.from(expected), Buffer.from(expected));
++}
+diff --git a/.github/workflows/release.yml b/.github/workflows/release.yml
+index 111aaaa..222bbbb 100644
+--- a/.github/workflows/release.yml
++++ b/.github/workflows/release.yml
+@@ -8,6 +8,10 @@ jobs:
+     runs-on: ubuntu-latest
++    permissions:
++      contents: write
++      id-token: write
++      packages: write
+     steps:
+       - uses: actions/checkout@v4
+diff --git a/src/billing/invoice.ts b/src/billing/invoice.ts
+new file mode 100644
+index 0000000..e5f6a7b
+--- /dev/null
++++ b/src/billing/invoice.ts
+@@ -0,0 +1,26 @@
++export interface Invoice {
++  id: string;
++  currency: string;
++  lines: Array<{ sku: string; amount: number }>;
++}
++
++export function createInvoice(id: string, currency: string): Invoice {
++  if (!/^[A-Z]{3}$/.test(currency)) {
++    throw new Error("currency must be a 3-letter code");
++  }
++  return { id, currency, lines: [] };
++}
++
++export function addLine(invoice: Invoice, sku: string, amount: number): Invoice {
++  if (!sku.trim()) throw new Error("sku");
++  if (!Number.isInteger(amount) || amount <= 0) {
++    throw new Error("amount must be a positive integer in minor units");
++  }
++  return {
++    ...invoice,
++    lines: [...invoice.lines, { sku, amount }],
++  };
++}
++
++export function total(invoice: Invoice): number {
++  return invoice.lines.reduce((sum, line) => sum + line.amount, 0);
++}
+diff --git a/test/webhooks/verify.test.ts b/test/webhooks/verify.test.ts
+deleted file mode 100644
+index abcdef0..0000000
+--- a/test/webhooks/verify.test.ts
++++ /dev/null
+@@ -1,8 +0,0 @@
+-import { verify } from "../../src/webhooks/verify";
+-
+-test("rejects a bad signature", () => {
+-  const ok = verify("test-secret", "{}", "t=1,v1=nope");
+-  expect(ok).toBe(false);
+-});
+diff --git a/migrations/2026_09_23_api_keys.sql b/migrations/2026_09_23_api_keys.sql
+new file mode 100644
+index 0000000..a1b2c3d
+--- /dev/null
++++ b/migrations/2026_09_23_api_keys.sql
+@@ -0,0 +1,16 @@
++create table api_keys (
++  id uuid primary key,
++  org_id uuid not null,
++  prefix text not null,
++  secret_hash text not null,
++  created_at timestamptz not null default now()
++);
++
++alter table api_keys enable row level security;
++
++create policy org_isolation on api_keys
++  using (org_id = current_setting('app.org_id')::uuid);
++
++alter table deliveries
++  add column signature_version int not null default 1;
+diff --git a/src/billing/charge.ts b/src/billing/charge.ts
+index 333cccc..444dddd 100644
+--- a/src/billing/charge.ts
++++ b/src/billing/charge.ts
+@@ -1,8 +1,11 @@
+ export function charge(amount: number, currency: string) {
+-  if (amount <= 0) throw new Error("amount");
++  if (!Number.isInteger(amount) || amount <= 0) {
++    throw new Error("amount must be a positive integer in minor units");
++  }
++  if (currency.length !== 3) throw new Error("currency");
+   return {
+     amount,
+     currency,
++    captured: true,
+   };
+ }
+diff --git a/package.json b/package.json
+index 777aaaa..888bbbb 100644
+--- a/package.json
++++ b/package.json
+@@ -12,6 +12,7 @@
+   "dependencies": {
+     "zod": "^3.23.8",
++    "stripe": "^17.4.0",
+     "pino": "^9.4.0"
+   },
+diff --git a/Dockerfile b/Dockerfile
+index aaaaaaa..bbbbbbb 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -1,4 +1,5 @@
+ FROM node:22-alpine
++USER node
+ WORKDIR /app
+ COPY package.json package-lock.json ./
+ RUN npm ci --omit=dev
+diff --git a/test/billing/charge.test.ts b/test/billing/charge.test.ts
+index 123aaaa..456bbbb 100644
+--- a/test/billing/charge.test.ts
++++ b/test/billing/charge.test.ts
+@@ -1,6 +1,9 @@
+ import { charge } from "../../src/billing/charge";
+ 
+ test("rejects zero", () => {
+-  expect(() => charge(0, "usd")).toThrow();
++  expect(() => charge(0, "usd")).toThrow(/minor units/);
+ });
++
++test("rejects bad currency", () => {
++  expect(() => charge(100, "US")).toThrow(/currency/);
++});
+diff --git a/docs/webhooks.md b/docs/webhooks.md
+index 999aaaa..999bbbb 100644
+--- a/docs/webhooks.md
++++ b/docs/webhooks.md
+@@ -1,3 +1,5 @@
+ # Webhooks
+ 
+ Send `t=<unix>,v1=<hex>` in `X-Signature`.
++
++Keys are stored as hashes. The sample fixture is not a credential.
+diff --git a/package-lock.json b/package-lock.json
+index 1212121..3434343 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -10,3 +10,9 @@
+     "node_modules/zod": {
+       "version": "3.23.8"
+     },
++    "node_modules/stripe": {
++      "version": "17.4.0",
++      "resolved": "https://registry.npmjs.org/stripe/-/stripe-17.4.0.tgz",
++      "integrity": "sha512-example"
++    },
+diff --git a/src/generated/types.ts b/src/generated/types.ts
+index 1010101..2020202 100644
+--- a/src/generated/types.ts
++++ b/src/generated/types.ts
+@@ -1,2 +1,3 @@
+ // generated by schema-gen — do not edit
+ export type OrgId = string;
++export type SignatureVersion = 1;

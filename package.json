@@ -1,0 +1,67 @@
+{
+  "name": "skimless",
+  "version": "0.1.0",
+  "description": "A reading order for pull requests that got too big. Offline, explainable, zero runtime dependencies.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Pedro França",
+  "mcpName": "io.github.pedroofrancaa/skimless",
+  "homepage": "https://pedroofrancaa.github.io/skimless/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pedroofrancaa/skimless.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pedroofrancaa/skimless/issues"
+  },
+  "bin": {
+    "skimless": "dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "examples",
+    "README.md",
+    "README.pt-BR.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --experimental-strip-types --test test/*.ts",
+    "check": "tsc -p tsconfig.check.json --pretty false",
+    "build": "tsc -p tsconfig.json",
+    "demo": "node --experimental-strip-types src/cli.ts demo",
+    "site": "node --experimental-strip-types src/cli.ts demo --format html --out site/proof.html && node --experimental-strip-types src/cli.ts demo --lang pt --format html --out site/prova.html",
+    "bench": "node --experimental-strip-types scripts/bench.ts",
+    "readme-image": "node --experimental-strip-types scripts/readme-image.ts docs/packet.svg",
+    "prepack": "npm run build"
+  },
+  "keywords": [
+    "code-review",
+    "pull-request",
+    "diff",
+    "cli",
+    "maintainer",
+    "github-action",
+    "security",
+    "ai-generated-code",
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "review-order"
+  ],
+  "devDependencies": {
+    "@types/node": "^22.19.0",
+    "typescript": "^5.9.2"
+  }
+}

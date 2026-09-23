@@ -1,0 +1,26 @@
+name: Proof
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  skimless:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: ./
+        with:
+          base: origin/${{ github.base_ref }}
+          fail-on: none
+          format: all
+          out: skimless
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: skimless-packet
+          path: |
+            skimless.html
+            skimless.md
+            skimless.json
