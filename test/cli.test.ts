@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -37,7 +37,7 @@ test("rules, help, version, and html output", () => {
   assert.match(rules.stdout, /credencial/);
 
   const version = run(["--version"]);
-  assert.equal(version.stdout.trim(), "0.1.0");
+  assert.equal(version.stdout.trim(), "0.1.1");
 
   const help = run(["--help"]);
   assert.match(help.stdout, /skimless review/);
@@ -60,4 +60,13 @@ test("--summary appends a short packet and keeps the exit code", () => {
   assert.match(body, /## Reading order/);
   assert.equal(body.includes("## Files"), false);
   assert.equal(body.includes("sk_live_51HhExampleKeyDoNotShip"), false);
+});
+
+test("runs when invoked through a symlinked bin", () => {
+  const directory = mkdtempSync(join(tmpdir(), "skimless-"));
+  const bin = join(directory, "skimless");
+  symlinkSync(join(root, "src", "cli.ts"), bin);
+  const result = spawnSync(process.execPath, ["--experimental-strip-types", bin, "--version"], { encoding: "utf8" });
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.stdout.trim(), "0.1.1");
 });

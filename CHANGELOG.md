@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1
+
+- Fix: the `skimless` command printed nothing when run through `npx` or a global install, because the entry-point check did not follow the bin symlink.
+
 ## 0.1.0
 
 First public packet.

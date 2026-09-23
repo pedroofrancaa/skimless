@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-import { appendFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { appendFileSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { cwd } from "node:process";
+import { fileURLToPath } from "node:url";
 
 import { RULES } from "./analyze/rules.ts";
 import { loadConfig, loadDefaultConfig, normalizeLang } from "./config.ts";
@@ -299,8 +300,17 @@ ${L("en", "Scores are a reading priority, not a safety proof.", "A nota é prior
 `;
 }
 
-const invoked = process.argv[1] && (process.argv[1].endsWith("/cli.ts") || process.argv[1].endsWith("/cli.js") || process.argv[1].endsWith("\\cli.ts") || process.argv[1].endsWith("\\cli.js"));
-if (invoked) {
+function isEntryPoint(): boolean {
+  const script = process.argv[1];
+  if (!script) return false;
+  try {
+    return realpathSync(script) === realpathSync(fileURLToPath(import.meta.url));
+  } catch {
+    return false;
+  }
+}
+
+if (isEntryPoint()) {
   main(process.argv.slice(2)).then((code) => {
     process.exitCode = code;
   });
