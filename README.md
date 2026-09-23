@@ -41,7 +41,7 @@ First pass: index.ts, fixture.ts, verify.ts.
 
 The sample `verify.ts` calls `timingSafeEqual` on a buffer compared with itself. Skimless has no rule for that. It puts the file third, under the live-shaped key, so a person sees it. That is the product: a path through the diff, not a verdict.
 
-[English packet](https://pedroofrancaa.github.io/skimless/proof.html) · [Pacote em português](https://pedroofrancaa.github.io/skimless/prova.html)
+[English packet](https://pedroofrancaa.github.io/skimless/proof.html) · [Pacote em português](https://pedroofrancaa.github.io/skimless/prova.html) · [A real diff: Express 4.21.2 → 5.0.0](https://pedroofrancaa.github.io/skimless/express-5.html)
 
 ## Why this exists
 

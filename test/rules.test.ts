@@ -225,6 +225,24 @@ ${lines}
 `, "over-budget", 1);
 });
 
+test("examples read as docs, abbreviated tests count, and the lede tells same-name files apart", () => {
+  assert.equal(reviewDiff(added("appveyor.yml", "build: off")).files[0]!.primaryRole, "ci");
+
+  const example = reviewDiff(added("examples/auth/index.js", "module.exports = require('../../');")).files[0]!;
+  assert.equal(example.primaryRole, "docs");
+  assert.equal(example.findings.some((finding) => finding.ruleId === "sensitive-surface" || finding.ruleId === "api-change"), false);
+
+  const body = Array.from({ length: 16 }, (_, index) => `exports.n${index} = ${index};`);
+  const source = added("lib/application.js", ...body);
+  has(source, "missing-tests");
+  lacks(source + added("test/app.router.js", "it('routes', () => {});"), "missing-tests");
+  has(source + added("test/a.js", "it('x', () => {});"), "missing-tests");
+
+  const lede = reviewDiff(added("lib/router/index.js", "export const a = 1;") + added("src/api/index.js", "export const b = 2;")).lede;
+  assert.match(lede, /router\/index\.js/);
+  assert.match(lede, /api\/index\.js/);
+});
+
 test("binary files", () => {
   has(`diff --git a/assets/logo.png b/assets/logo.png
 new file mode 100644

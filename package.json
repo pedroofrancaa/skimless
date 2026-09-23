@@ -1,6 +1,6 @@
 {
   "name": "skimless",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A reading order for pull requests that got too big. Offline, explainable, zero runtime dependencies.",
   "type": "module",
   "license": "MIT",

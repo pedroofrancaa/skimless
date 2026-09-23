@@ -37,7 +37,7 @@ test("rules, help, version, and html output", () => {
   assert.match(rules.stdout, /credencial/);
 
   const version = run(["--version"]);
-  assert.equal(version.stdout.trim(), "0.1.1");
+  assert.equal(version.stdout.trim(), "0.1.2");
 
   const help = run(["--help"]);
   assert.match(help.stdout, /skimless review/);
@@ -68,5 +68,5 @@ test("runs when invoked through a symlinked bin", () => {
   symlinkSync(join(root, "src", "cli.ts"), bin);
   const result = spawnSync(process.execPath, ["--experimental-strip-types", bin, "--version"], { encoding: "utf8" });
   assert.equal(result.status, 0, result.stderr);
-  assert.equal(result.stdout.trim(), "0.1.1");
+  assert.equal(result.stdout.trim(), "0.1.2");
 });

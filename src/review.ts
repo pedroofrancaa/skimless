@@ -67,7 +67,7 @@ export function reviewDiff(patch: string, options: ReviewOptions = {}): ReviewPa
     disposition: file.disposition,
     primaryRole: file.primaryRole,
   }));
-  const firstNames = readingOrder.map((stop) => stop.path.split("/").pop() ?? stop.path);
+  const firstNames = shortNames(readingOrder.slice(0, 3).map((stop) => stop.path));
 
   return {
     version: 1,
@@ -145,6 +145,21 @@ function estimateMinutes(files: readonly FileAssessment[]): number {
     lines += file.additions + file.deletions;
   }
   return Math.max(2, Math.round(lines / 40));
+}
+
+function shortNames(paths: readonly string[]): string[] {
+  const parts = paths.map((path) => path.split("/"));
+  const depth = parts.map(() => 1);
+  const name = (index: number) => parts[index]!.slice(-depth[index]!).join("/");
+  for (;;) {
+    const names = parts.map((_, index) => name(index));
+    const grow = parts
+      .map((_, i) => i)
+      .filter((i) => depth[i]! < parts[i]!.length && names.some((other, j) => j !== i && other === names[i]));
+    if (grow.length === 0) break;
+    for (const i of grow) depth[i] = depth[i]! + 1;
+  }
+  return parts.map((_, index) => name(index));
 }
 
 function countSeverities(findings: readonly Finding[]): Record<Severity, number> {

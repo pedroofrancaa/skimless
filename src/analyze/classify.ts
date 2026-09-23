@@ -71,7 +71,11 @@ export function classify(filePath: string): Role[] {
     roles.push("generated");
   }
   if (/\.(?:png|jpe?g|gif|webp|svg|ico|woff2?|ttf|eot|mp4|pdf)$/i.test(path)) roles.push("asset");
-  if (/\.(?:md|mdx|rst|adoc)$/i.test(path) || /(?:^|\/)docs?\//.test(path) || /^(?:readme|changelog)/i.test(base)) {
+  if (
+    /\.(?:md|mdx|rst|adoc)$/i.test(path) ||
+    /(?:^|\/)(?:docs?|examples?|samples?)\//.test(path) ||
+    /^(?:readme|changelog)/i.test(base)
+  ) {
     roles.push("docs");
   }
   if (/migrat(?:e|ion|ions)/i.test(path) || /alembic|flyway|prisma\/migrations/i.test(path)) roles.push("migration");
@@ -81,7 +85,7 @@ export function classify(filePath: string): Role[] {
     path.includes(".github/actions/") ||
     /jenkinsfile|\.gitlab-ci|azure-pipelines|\.circleci/i.test(path) ||
     /(?:^|\/)\.(?:gitlab\/ci|buildkite|woodpecker)\//.test(path) ||
-    /(?:^|\/)(?:bitbucket-pipelines|\.travis|\.drone|\.woodpecker)\.ya?ml$/.test(path)
+    /(?:^|\/)(?:bitbucket-pipelines|\.travis|\.drone|\.woodpecker|\.?appveyor)\.ya?ml$/.test(path)
   ) {
     roles.push("ci");
   }

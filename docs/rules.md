@@ -20,7 +20,7 @@ Skimless flags are heuristics for reading order. Each one should fit in a senten
 | `large-file` | medium | One file carries at least `largeFileLines` changed lines (default 400). Lockfiles, docs, assets, and generated files are exempt. |
 | `over-budget` | medium | The estimated read exceeds `budgetMinutes`. Off unless you set a budget. |
 | `lockfile` | medium | A lockfile changed. Read it after the manifest, looking for a surprise package. |
-| `ci-publish` | medium | A CI file adds a publish or push step: `npm publish` and friends, `twine upload`, `cargo publish`, `gem push`, `docker push`, `git push`, `gh release create`, `nuget push`, GoReleaser, or a publish action. Works for GitHub Actions, GitLab CI, Buildkite, CircleCI, Azure Pipelines, Bitbucket, Travis, Drone, Woodpecker, and Jenkins. |
+| `ci-publish` | medium | A CI file adds a publish or push step: `npm publish` and friends, `twine upload`, `cargo publish`, `gem push`, `docker push`, `git push`, `gh release create`, `nuget push`, GoReleaser, or a publish action. Works for GitHub Actions, GitLab CI, Buildkite, CircleCI, Azure Pipelines, Bitbucket, Travis, Drone, Woodpecker, AppVeyor, and Jenkins. |
 | `ci-changed` | low | Automation changed and none of the CI rules above fired. |
 | `binary-file` | low | The diff has no lines to read. |
 | `whitespace-only` | info | Trimmed added and removed lines match. Other rules stand down. |

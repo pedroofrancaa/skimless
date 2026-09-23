@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.2
+
+Fixes found by running Skimless on the Express 4.21.2 → 5.0.0 diff.
+
+- Files under `examples/` and `samples/` read as docs, so `examples/*/index.js` no longer jumps to the top as public API or auth.
+- Abbreviated test names count as coverage: `test/app.router.js` covers `lib/application.js`, `test/req.*.js` covers `lib/request.js`.
+- The summary line tells same-name files apart (`router/index.js`, `api/index.js`) instead of repeating `index.js`.
+- `appveyor.yml` is recognized as CI.
+
 ## 0.1.1
 
 - Fix: the `skimless` command printed nothing when run through `npx` or a global install, because the entry-point check did not follow the bin symlink.

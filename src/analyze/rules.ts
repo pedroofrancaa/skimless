@@ -77,6 +77,14 @@ export function assessFile(file: DiffFile, context: AssessContext): FileAssessme
   return baseAssessment(file, path, roles, role, sorted);
 }
 
+// Also accepts abbreviated test names, as in test/app.router.js for lib/application.js.
+function coversStem(testPath: string, stem: string): boolean {
+  const testStem = fileStem(testPath);
+  if (testStem === stem || testPath.toLowerCase().includes(`/${stem}.`)) return true;
+  const head = testStem.split(/[._-]/)[0] ?? "";
+  return head.length >= 3 && stem.startsWith(head);
+}
+
 export function addCrossFileFindings(
   files: FileAssessment[],
   lang: Lang,
@@ -87,7 +95,7 @@ export function addCrossFileFindings(
     if (!needsTestGap(file, testGapLines)) continue;
     const stem = fileStem(file.path);
     if (stem.length < 3) continue;
-    const covered = liveTests.some((test) => fileStem(test.path) === stem || test.path.toLowerCase().includes(`/${stem}.`));
+    const covered = liveTests.some((test) => coversStem(test.path, stem));
     if (covered) continue;
     file.findings.push(finding(lang, "missing-tests", "medium", file.path, {
       en: "Behavior changed without a matching test",
